@@ -11,6 +11,7 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
+          autoHideHomeIndicator: true,
         }}
       >
         <Stack.Screen name="index" />
@@ -19,6 +20,8 @@ export default function RootLayout() {
         <Stack.Screen name="movies/genres/[name]" />
         <Stack.Screen name="tvshows/genres/[name]" />
         <Stack.Screen name="search/index" />
+        <Stack.Screen name="movies/[id]" />
+        <Stack.Screen name="tvshows/[id]" />
       </Stack>
     </Provider>
   );

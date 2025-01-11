@@ -1,14 +1,12 @@
-import { View, Text, ImageBackground, Image } from 'react-native';
+import { View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { GenreInterface, MovieInterface, TvShowInterface } from '@/interfaces/contentInterfaces';
 import { StarRatingDisplay } from 'react-native-star-rating-widget';
 import styles from './styles';
+import { router } from 'expo-router';
 
 const ImageBaseUrl = process.env.EXPO_PUBLIC_API_IMAGE_URL;
-
-
-
 
 const roundToHalf = (num: number) => {
   return Math.round(num * 2) / 2;
@@ -19,7 +17,7 @@ const DetailedContentCard = ({ content, genres }: { content: MovieInterface | Tv
     return genreIds.map(id => genres.find(genre => genre.id === id)?.name).filter(Boolean).join(", ");
   };
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={() => { router.push(`/movies/${content.id}`) }}>
       <ImageBackground
         style={styles.cardBackground}
         source={{ uri: `${ImageBaseUrl}${content.backdrop_path}` }}
@@ -56,7 +54,7 @@ const DetailedContentCard = ({ content, genres }: { content: MovieInterface | Tv
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -9,6 +9,7 @@ import ContentCard from '@/components/ContentCard';
 import { createGenreRoute } from '@/utils/utils';
 import { useSelector } from 'react-redux';
 import SortModalComponent from '@/components/SortModal';
+import DetailedContentCard from '@/components/DetailedContentCard';
 
 const GenrePage = () => {
   const { name } = useLocalSearchParams();
@@ -57,7 +58,7 @@ const GenrePage = () => {
           setSortOrder={setSortOrder}
         />
         <Text style={styles.title}>{`${genreTitle} MOVIES`}</Text>
-        <FlatList
+        {gridView ? <FlatList
           data={genreData}
           keyExtractor={(item) => `${item.id}-${item.popularity}-${item.vote_average}`}
           renderItem={({ item }) => <ContentCard content={item} />}
@@ -75,7 +76,24 @@ const GenrePage = () => {
           }}
           onEndReachedThreshold={0.8}
           ListFooterComponent={<ActivityIndicator size="large" color="#fff" />}
-        />
+        /> :
+          (
+            <FlatList
+              data={genreData}
+              keyExtractor={(item) => `${item.id}-${item.popularity}-${item.vote_average}`}
+              renderItem={({ item }) => <DetailedContentCard content={item} genres={movieGenres}/>}
+              keyboardDismissMode='on-drag'
+              onScrollBeginDrag={Keyboard.dismiss}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              onEndReached={() => {
+                setPage(page + 1);
+                fetchGenreData();
+              }}
+              onEndReachedThreshold={0.8}
+              ListFooterComponent={<ActivityIndicator size="large" color="#fff" />}
+            />
+          )}
       </View>
     </>
   );

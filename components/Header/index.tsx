@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StatusBar, TextInput, Keyboard, Pressable } from 'react-native';
+import { View, Text, TextInput, Keyboard, Pressable } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { RelativePathString, router } from 'expo-router';
 import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather';
@@ -36,7 +37,7 @@ export default function Header(
 
   return (
     <View>
-      <StatusBar barStyle="light-content" />
+      <StatusBar style="light" />
       <View style={styles.container}>
         <Entypo onPress={() => router.back()} name="chevron-left" size={24} color="white" style={styles.backButton} />
         {isHomePage && (
@@ -77,9 +78,9 @@ export default function Header(
             {openModal && <Feather name="filter" size={24} color="white" onPress={() => { openModal(true) }} />}
           </View>
         )}
-        {!isHomePage && !isSearchPage && !isGenrePage && (
+        {/*         {!isHomePage && !isSearchPage && !isGenrePage && (
           <Text style={styles.title}>{title ?? "Watchly"}</Text>
-        )}
+        )} */}
       </View>
     </View>
   );
