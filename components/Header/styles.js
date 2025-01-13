@@ -13,11 +13,6 @@ export default StyleSheet.create({
     height: 110,
     backdropFilter: "blur(4px)",
   },
-  searchContainer: {
-    justifyContent: "flex-start",
-    gap: 20,
-    paddingHorizontal: 10,
-  },
   title: {
     fontSize: 24,
     color: "#fff",
@@ -32,7 +27,8 @@ export default StyleSheet.create({
   inputContainer: {
     position: "relative",
     flex: 1,
-    paddingLeft: 20
+    paddingLeft: 20,
+    marginRight: 20,
   },
   searchInput: {
     backgroundColor: "#0a0c10",

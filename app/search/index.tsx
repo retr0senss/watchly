@@ -8,14 +8,39 @@ import { MovieInterface, TvShowInterface } from '@/interfaces/contentInterfaces'
 import VerticalSlider from '@/components/VerticalSlider';
 import { useSelector } from 'react-redux';
 import { orderByPopularity } from '@/utils/utils';
+import { getPopulars } from '@/services/getContents.service';
+import HorizontalSlider from '@/components/HorizontalSlider';
+
+interface PopularsRailInterface {
+  title: string;
+  data: MovieInterface[] | TvShowInterface[];
+}
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchResults, setSearchResults] = useState<MovieInterface[] | TvShowInterface[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [popularsRailData, setPopularsRailData] = useState<PopularsRailInterface>({
+    title: "",
+    data: []
+  });
   const { activeType } = useSelector((state: any) => state.activeType);
 
+  useEffect(() => {
+    getPopulars(activeType).then(res => {
+      setPopularsRailData({ data: res?.data?.results, title: `Popular ${activeType === "movie" ? "Movies" : "TV Shows"}` });
+    });
+
+    if (searchValue === '') {
+      setSearchResults([]);
+    } else {
+      handleSearch(searchValue);
+    }
+  }, [searchValue, activeType]);
+
   const handleSearch = useCallback(debounce((searchValue: string) => {
+    setIsTyping(false);
     if (searchValue !== '') {
       setSearchLoading(true);
       if (activeType === "tv") {
@@ -40,18 +65,40 @@ const Search = () => {
   }, 500), [activeType]);
 
   const onChange = (text: string) => {
+    setIsTyping(true);
     setSearchLoading(false);
     setSearchResults([]);
     setSearchValue(text);
   };
 
-  useEffect(() => {
-    if (searchValue === '') {
-      setSearchResults([]);
-    } else {
-      handleSearch(searchValue);
+  const renderResults = () => {
+    if (isTyping) {
+      return null;
     }
-  }, [searchValue]);
+    if (searchValue.length > 0 && searchResults.length > 0) {
+      return (
+        <View style={styles.searchResultContainer}>
+          <Text style={styles.searchResultTitle}>Search Results for {searchValue}</Text>
+          <VerticalSlider verticalSliderData={searchResults} type='movie' />
+        </View>
+      );
+    }
+    else if (searchValue.length === 0) {
+      return (
+        <View>
+          <HorizontalSlider sliderData={[popularsRailData]} type={activeType} />
+        </View>
+      );
+    }
+    else {
+      return (
+        <View>
+          <Text style={styles.searchResultTitle}>No results found for {searchValue}</Text>
+          <HorizontalSlider sliderData={[popularsRailData]} type={activeType} />
+        </View>
+      );
+    }
+  };
 
   return (
     <>
@@ -60,12 +107,9 @@ const Search = () => {
       <View style={styles.container}>
         {searchLoading ? (
           <ActivityIndicator size="large" color="#fff" />
-        ) : searchValue.length > 0 && searchResults.length > 0 ? (
-          <View style={styles.searchResultContainer}>
-            <Text style={styles.searchResultTitle}>Search Results for {searchValue}</Text>
-            <VerticalSlider verticalSliderData={searchResults} type='movie' />
-          </View>
-        ) : null}
+        ) : (
+          renderResults()
+        )}
       </View>
     </>
   );

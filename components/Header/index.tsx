@@ -47,25 +47,23 @@ export default function Header(
           </>
         )}
         {isSearchPage && (
-          <View style={[styles.container, styles.searchContainer]}>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder={placeHolder}
-                value={value}
-                onChangeText={onChange}
-                onSubmitEditing={Keyboard.dismiss}
-                placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
-              />
-              {(value && value.length > 0) && onChange && (
-                <Pressable style={styles.clearButton} onPress={() => {
-                  Keyboard.dismiss();
-                  onChange('');
-                }}>
-                  <Text style={styles.clearText}>X</Text>
-                </Pressable>
-              )}
-            </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder={placeHolder}
+              value={value}
+              onChangeText={onChange}
+              onSubmitEditing={Keyboard.dismiss}
+              placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
+            />
+            {(value && value.length > 0) && onChange && (
+              <Pressable style={styles.clearButton} onPress={() => {
+                Keyboard.dismiss();
+                onChange('');
+              }}>
+                <Text style={styles.clearText}>X</Text>
+              </Pressable>
+            )}
           </View>
         )}
         {isGenrePage && (
@@ -78,9 +76,6 @@ export default function Header(
             {openModal && <Feather name="filter" size={24} color="white" onPress={() => { openModal(true) }} />}
           </View>
         )}
-        {/*         {!isHomePage && !isSearchPage && !isGenrePage && (
-          <Text style={styles.title}>{title ?? "Watchly"}</Text>
-        )} */}
       </View>
     </View>
   );

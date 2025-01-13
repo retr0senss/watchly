@@ -1,12 +1,28 @@
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { RelativePathString, router } from "expo-router";
 import Button from "@/components/Button";
 import Background from "@/components/Background";
 import { useDispatch } from "react-redux";
-import { setActiveType } from "@/store/slices/activeType";
+import { useSelector } from "react-redux";
+import { setUser } from "@/store/slices/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Index = () => {
   const dispatch = useDispatch();
+  const { auth } = useSelector((state: any) => state.auth);
+
+  useEffect(()=>{
+    if(auth.user){
+      
+    }
+  },[])
+
+  const handleLogout = async () => {
+    dispatch(setUser(null));
+    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem('token');
+  };
 
   return (
     <View style={styles.container}>
@@ -14,20 +30,41 @@ const Index = () => {
       <View>
         <Text style={styles.title}>Watchly</Text>
         <View style={styles.buttonContainer}>
-          <Button
-            title="Movies"
-            onPress={() => {
-              dispatch(setActiveType("movie"));
-              router.push("/movies" as RelativePathString)
-            }}
-          />
-          <Button
-            title="TV Shows"
-            onPress={() => {
-              dispatch(setActiveType("tv"));
-              router.push("/tvshows" as RelativePathString)
-            }}
-          />
+          {(auth?.user) ? <>
+            <Button
+              title="Movies"
+              onPress={() => {
+                router.push("/movies" as RelativePathString)
+              }}
+            />
+            <Button
+              title="Sign Up"
+              onPress={() => {
+                router.push("/tvshows" as RelativePathString)
+              }}
+            />
+            <Button
+              title="Log Out"
+              onPress={handleLogout}
+              color="purple"
+              textColor="white"
+            />
+          </> : <>
+            <Button
+              title="Login"
+              onPress={() => {
+                router.push("/login" as RelativePathString)
+              }}
+            />
+            <Button
+              title="Sign Up"
+              onPress={() => {
+                router.push("/signup" as RelativePathString)
+              }}
+            />
+
+          </>
+          }
         </View>
       </View>
     </View >
@@ -40,13 +77,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  bgImage: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    zIndex: -999,
-    filter: "brightness(0.3)",
-  },
   title: {
     fontSize: 48,
     fontWeight: "bold",
@@ -54,7 +84,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonContainer: {
-    width: "100%",
+    width: 300,
     marginTop: 50,
     gap: 20,
   },

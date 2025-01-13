@@ -10,7 +10,13 @@ const DetailsHeader = ({ contentDetails }: { contentDetails?: MovieDetailsInterf
       {contentDetails && (
         <Text style={styles.title}>{"title" in contentDetails ? contentDetails.title : contentDetails.name}</Text>
       )}
-      {contentDetails && <Text style={styles.tagline}>{"release_date" in contentDetails ? contentDetails?.release_date.split("-")[0] : contentDetails?.seasons.length} Seasons</Text>}
+      {contentDetails && (
+        <Text style={styles.tagline}>
+          {"release_date" in contentDetails
+            ? contentDetails?.release_date.split("-")[0]
+            : `${contentDetails?.seasons.length} Seasons / ${"number_of_episodes" in contentDetails ? contentDetails.number_of_episodes : ''} Episodes`}
+        </Text>
+      )}
       <FlatList
         data={contentDetails?.genres}
         horizontal

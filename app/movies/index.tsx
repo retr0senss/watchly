@@ -6,6 +6,7 @@ import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import Header from '@/components/Header';
 import Background from '@/components/Background';
 import HorizontalSlider from '@/components/HorizontalSlider';
+import BannerSlider from '@/components/BannerSlider';
 
 //Interfaces
 import { MovieInterface } from '@/interfaces/contentInterfaces';
@@ -32,7 +33,6 @@ export default function Movies() {
         const genresResponse = await getGenres({ type: 'movie' });
         const genres = genresResponse?.data?.genres;
         dispatch(setMovieGenres(genres));
-
         const dashboardData = await getDashboardData('movie', genres);
         setMovieRails(dashboardData);
       } catch (error) {
@@ -41,19 +41,21 @@ export default function Movies() {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
   return (
     <>
-      <Header isHomePage />
+      {/*       <Header isHomePage /> */}
       <Background />
       <View style={styles.container}>
         {loading ? (
           <ActivityIndicator size="large" color="#fff" />
         ) : (
-          <HorizontalSlider sliderData={movieRails} type='movie' />
+          <>
+            <BannerSlider />
+            <HorizontalSlider sliderData={movieRails} type='movie' />
+          </>
         )}
       </View >
     </>
@@ -65,6 +67,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 20,
   },
 });
