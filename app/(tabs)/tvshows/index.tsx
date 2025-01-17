@@ -15,6 +15,7 @@ import { getGenres } from '@/services/getGenres.service';
 import { getDashboardData } from '@/utils/getDasboardData';
 import { useDispatch } from 'react-redux';
 import { setTvGenres } from '@/store/slices/genres';
+import NavSlider from '@/components/NavSlider';
 
 interface TvShowRailInterface {
   title: string;
@@ -56,7 +57,10 @@ export default function TvShows() {
           loading ? (
             <ActivityIndicator size="large" color="#fff" />
           ) : (
-            <HorizontalSlider sliderData={tvShowsRails} type='tv' />
+            <>
+              <NavSlider />
+              <HorizontalSlider sliderData={tvShowsRails} type='tv' />
+            </>
           )
         }
       </View>
@@ -67,9 +71,7 @@ export default function TvShows() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 20,
   },
   searchContainer: {
     gap: 15,

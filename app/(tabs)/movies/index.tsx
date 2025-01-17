@@ -17,6 +17,7 @@ import { getDashboardData } from '@/utils/getDasboardData';
 import { useDispatch } from 'react-redux';
 import { setMovieGenres } from '@/store/slices/genres';
 import { setActiveType } from '@/store/slices/activeType';
+import NavSlider from '@/components/NavSlider';
 
 interface MovieRailInterface {
   title: string;
@@ -51,7 +52,7 @@ export default function Movies() {
 
   return (
     <>
-      <Header isHomePage />
+      <Header />
       {/* <Background /> */}
       <View style={styles.container}>
         {loading ? (
@@ -59,6 +60,7 @@ export default function Movies() {
         ) : (
           <>
             {/* <BannerSlider bannerData={bannerData} /> */}
+            <NavSlider />
             <HorizontalSlider sliderData={movieRails} type='movie' />
           </>
         )}
@@ -70,7 +72,6 @@ export default function Movies() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     paddingHorizontal: 20,
   },
 });

@@ -14,6 +14,8 @@ import CastList from '@/components/CastList'
 import SimilarContents from '@/components/SimilarContents'
 import { LinearGradient } from 'expo-linear-gradient'
 
+
+
 const MovieDetailPage = () => {
   const { id } = useLocalSearchParams();
   const [movieDetails, setMovieDetails] = useState<MovieDetailsInterface>();
@@ -22,26 +24,12 @@ const MovieDetailPage = () => {
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const response = await getContentDetails("movie", id as string);
-        if (response?.data) {
-          response.data.genres = [
-            {
-              id: response.data.runtime,
-              name: runtimeHandler(response.data.runtime)
-            },
-            ...response.data.genres
-          ];
-          response.data.video = response.data.videos.results.find((video: any) => video.type === "Trailer")?.key;
-        }
-        scrollRef.current?.scrollTo({ y: 0, animated: true });
-        setMovieDetails(response?.data);
-        setIsLoaded(true);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 800); // Show loader for at least 2 seconds
+  }, [])
+
+  useEffect(() => {
     fetchMovieDetails();
   }, [segments]);
 
@@ -51,12 +39,32 @@ const MovieDetailPage = () => {
     return (hours === 0 ? `${minutes}m` : `${hours}h ${minutes}m`);
   }
 
+  const fetchMovieDetails = async () => {
+    try {
+      const response = await getContentDetails("movie", id as string);
+      if (response?.data) {
+        response.data.genres = [
+          {
+            id: response.data.runtime,
+            name: runtimeHandler(response.data.runtime)
+          },
+          ...response.data.genres
+        ];
+        response.data.video = response.data.videos.results.find((video: any) => video.type === "Trailer")?.key;
+      }
+      scrollRef.current?.scrollTo({ y: 0, animated: true });
+      setMovieDetails(response?.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <SafeAreaProvider>
       <StatusBar hidden />
-      <Background setIsLoaded={setIsLoaded} imageUrl={`https://image.tmdb.org/t/p/original${movieDetails?.poster_path}`} />
       {isLoaded ? (
         <>
+          <Background imageUrl={`${movieDetails?.poster_path}`} />
           <View style={styles.container}>
             <View style={styles.contentHeader}>
               <ImageBackground
@@ -94,12 +102,8 @@ const MovieDetailPage = () => {
         </>
       ) : (
         <View style={styles.loadingContainer}>
-          <ImageBackground
-            source={require("@/assets/images/homeBG.jpg")}
-            style={styles.loadingBackground}
-          >
-            <ActivityIndicator size="large" color="white" />
-          </ImageBackground>
+          <Background />
+          <ActivityIndicator size="large" color="white" />
         </View>
       )}
     </SafeAreaProvider>

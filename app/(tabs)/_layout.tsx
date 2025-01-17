@@ -30,7 +30,7 @@ export default () => {
       }}
       />
       <Tabs.Screen name="tvshows/index" options={{
-        title: "TV",
+        title: "Shows",
         tabBarIcon: (({ color, size }) => (
           <Ionicons name="tv" color={color} size={size} />
         )),

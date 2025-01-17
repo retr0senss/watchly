@@ -8,7 +8,6 @@ const Background = ({ imageUrl, setIsLoaded }: {
   imageUrl?: string,
   setIsLoaded?: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-  console.log("ImageBaseUrl", ImageBaseUrl)
 
   return (
     <ImageBackground

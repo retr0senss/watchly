@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Header from '@/components/Header';
 import Background from '@/components/Background';
 import { searchMovies, searchMulti, searchTvShows } from '@/services/search.service';
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { orderByPopularity } from '@/utils/utils';
 import { getPopulars } from '@/services/getContents.service';
 import HorizontalSlider from '@/components/HorizontalSlider';
+import { AntDesign, Feather } from '@expo/vector-icons';
 
 interface PopularsRailInterface {
   title: string;
@@ -101,17 +102,42 @@ const Search = () => {
   };
 
   return (
-    <>
-      <Header isSearchPage value={searchValue} placeHolder="Search for a tv show" onChange={onChange} />
-      {/* <Background /> */}
-      <View style={styles.container}>
-        {searchLoading ? (
-          <ActivityIndicator size="large" color="#fff" />
-        ) : (
-          renderResults()
-        )}
-      </View>
-    </>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <>
+        <Header />
+        <View style={styles.container}>
+          <View style={styles.searchInputContainer}>
+            <Feather name="search" size={24} color="white" style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Find your next movie or TV show"
+              placeholderTextColor="rgba(255,255,255,0.5)"
+              onChangeText={onChange}
+              value={searchValue}
+            />
+            {
+              searchValue.length > 0 && (
+                <AntDesign
+                  name="closecircle"
+                  size={24}
+                  color="rgba(255,255,255,0.5)"
+                  onPress={() => {
+                    Keyboard.dismiss()
+                    setSearchValue("")
+                  }}
+                  style={styles.closeIcon}
+                />
+              )
+            }
+          </View>
+          {searchLoading ? (
+            <ActivityIndicator size="large" color="#fff" />
+          ) : (
+            renderResults()
+          )}
+        </View>
+      </>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -134,5 +160,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+  searchInput: {
+    width: '100%',
+    height: 50,
+    backgroundColor: 'rgb(35,31,36)',
+    color: 'white',
+    paddingLeft: 50,
+    borderRadius: 100,
+    marginBottom: 20,
+  },
+  searchInputContainer: {
+    position: 'relative',
+    width: '100%',
+    alignItems: 'center',
+  },
+  searchIcon: {
+    position: 'absolute',
+    top: 27,
+    left: 15,
+    zIndex: 1,
+    transform: [{ translateY: -15 }]
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: 27,
+    right: 15,
+    zIndex: 1,
+    transform: [{ translateY: -15 }]
   }
 });

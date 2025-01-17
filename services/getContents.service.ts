@@ -10,7 +10,6 @@ export async function getPopulars(type: string, page: number = 1) {
       `${apiUrl}/discover/${type}?api_key=${apiKey}&include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`
     );
   } catch (err) {
-    console.log(`${apiUrl}/discover/${type}?api_key=${apiKey}&include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`)
     console.log("Error: ", err);
   }
 }

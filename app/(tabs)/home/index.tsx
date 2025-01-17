@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { RelativePathString, router } from "expo-router";
 import Button from "@/components/Button";
 import Background from "@/components/Background";
@@ -8,10 +8,13 @@ import { useSelector } from "react-redux";
 import { setUser } from "@/store/slices/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from "@/components/Header";
+import { usePathname } from "expo-router";
+import NavSlider from "@/components/NavSlider";
 
 const Index = () => {
   const dispatch = useDispatch();
   const { auth } = useSelector((state: any) => state.auth);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (auth.user) {
@@ -25,50 +28,13 @@ const Index = () => {
     await AsyncStorage.removeItem('token');
   };
 
+
+
   return (
     <>
       <Header />
       <View style={styles.container}>
-        <View>
-          <Text style={styles.title}>Watchly</Text>
-          <View style={styles.buttonContainer}>
-            {(auth?.user) ? <>
-              <Button
-                title="Movies"
-                onPress={() => {
-                  router.push("/movies" as RelativePathString)
-                }}
-              />
-              <Button
-                title="Sign Up"
-                onPress={() => {
-                  router.push("/tvshows" as RelativePathString)
-                }}
-              />
-              <Button
-                title="Log Out"
-                onPress={handleLogout}
-                color="purple"
-                textColor="white"
-              />
-            </> : <>
-              <Button
-                title="Login"
-                onPress={() => {
-                  router.push("/login" as RelativePathString)
-                }}
-              />
-              <Button
-                title="Sign Up"
-                onPress={() => {
-                  router.push("/signup" as RelativePathString)
-                }}
-              />
-
-            </>
-            }
-          </View>
-        </View>
+        <NavSlider />
       </View >
     </>
   );
@@ -77,20 +43,26 @@ const Index = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 48,
-    fontWeight: "bold",
-    color: "white",
-    textAlign: "center",
+    paddingHorizontal: 20,
   },
   buttonContainer: {
-    width: 300,
-    marginTop: 50,
-    gap: 20,
+    gap: 30,
+    height: 70,
+    alignItems: 'center',
   },
+  selectedButton: {
+    backgroundColor: 'rgb(62, 84, 199)',
+    borderRadius: 100,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  }
 });
 
 export default Index;

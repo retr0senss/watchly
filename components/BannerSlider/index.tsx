@@ -11,7 +11,6 @@ const BannerSlider = ({ bannerData }: {
   bannerData: (MovieInterface | TvShowInterface)[]
 }) => {
   const { width } = Dimensions.get("window")
-  console.log("bannerData", bannerData)
 
   return (
     <View style={[styles.carouselContainer, { width }]}>
