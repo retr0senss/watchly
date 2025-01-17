@@ -103,7 +103,7 @@ const Search = () => {
   return (
     <>
       <Header isSearchPage value={searchValue} placeHolder="Search for a tv show" onChange={onChange} />
-      <Background />
+      {/* <Background /> */}
       <View style={styles.container}>
         {searchLoading ? (
           <ActivityIndicator size="large" color="#fff" />

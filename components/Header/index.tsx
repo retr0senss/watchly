@@ -36,47 +36,11 @@ export default function Header(
     HeaderProps) {
 
   return (
-    <View>
+    <>
       <StatusBar style="light" />
       <View style={styles.container}>
-        <Entypo onPress={() => router.back()} name="chevron-left" size={24} color="white" style={styles.backButton} />
-        {isHomePage && (
-          <>
-            <Text style={styles.title}>{title ?? "Watchly"}</Text>
-            <Feather name="search" size={24} color="white" onPress={() => router.push('/search' as RelativePathString)} style={styles.searchButton} />
-          </>
-        )}
-        {isSearchPage && (
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder={placeHolder}
-              value={value}
-              onChangeText={onChange}
-              onSubmitEditing={Keyboard.dismiss}
-              placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
-            />
-            {(value && value.length > 0) && onChange && (
-              <Pressable style={styles.clearButton} onPress={() => {
-                Keyboard.dismiss();
-                onChange('');
-              }}>
-                <Text style={styles.clearText}>X</Text>
-              </Pressable>
-            )}
-          </View>
-        )}
-        {isGenrePage && (
-          <View style={styles.genreButtonsContainer}>
-            {gridView ? (
-              <Entypo name="list" size={24} color="white" onPress={() => setGridView && setGridView(!gridView)} />
-            ) : (
-              <Entypo name="grid" size={24} color="white" onPress={() => setGridView && setGridView(!gridView)} />
-            )}
-            {openModal && <Feather name="filter" size={24} color="white" onPress={() => { openModal(true) }} />}
-          </View>
-        )}
+        <Text style={styles.title}>Watchly</Text>
       </View>
-    </View>
+    </>
   );
 }

@@ -8,13 +8,14 @@ const Background = ({ imageUrl, setIsLoaded }: {
   imageUrl?: string,
   setIsLoaded?: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
+  console.log("ImageBaseUrl", ImageBaseUrl)
 
   return (
     <ImageBackground
-      source={imageUrl ? { uri: `${ImageBaseUrl}${imageUrl}` } : require("@/assets/images/homeBG.png")
+      source={imageUrl ? { uri: `${ImageBaseUrl}${imageUrl}` } : require("@/assets/images/homeBG.jpg")
       }
       style={styles.bgImage}
-      blurRadius={50}
+      blurRadius={imageUrl ? 50 : 0}
       onLoad={() => setIsLoaded && setIsLoaded(true)}
     />
   )

@@ -16,6 +16,7 @@ import { getGenres } from '@/services/getGenres.service';
 import { getDashboardData } from '@/utils/getDasboardData';
 import { useDispatch } from 'react-redux';
 import { setMovieGenres } from '@/store/slices/genres';
+import { setActiveType } from '@/store/slices/activeType';
 
 interface MovieRailInterface {
   title: string;
@@ -23,17 +24,21 @@ interface MovieRailInterface {
 }
 
 export default function Movies() {
+  const [bannerData, setBannerData] = useState<MovieInterface[]>([]);
   const [movieRails, setMovieRails] = useState<MovieRailInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setActiveType('movie'));
     const fetchData = async () => {
       try {
         const genresResponse = await getGenres({ type: 'movie' });
         const genres = genresResponse?.data?.genres;
         dispatch(setMovieGenres(genres));
         const dashboardData = await getDashboardData('movie', genres);
+        const bannerData = dashboardData[0].data.slice(0, 5);
+        setBannerData(bannerData);
         setMovieRails(dashboardData);
       } catch (error) {
         console.error(error);
@@ -46,14 +51,14 @@ export default function Movies() {
 
   return (
     <>
-      {/*       <Header isHomePage /> */}
-      <Background />
+      <Header isHomePage />
+      {/* <Background /> */}
       <View style={styles.container}>
         {loading ? (
           <ActivityIndicator size="large" color="#fff" />
         ) : (
           <>
-            <BannerSlider />
+            {/* <BannerSlider bannerData={bannerData} /> */}
             <HorizontalSlider sliderData={movieRails} type='movie' />
           </>
         )}

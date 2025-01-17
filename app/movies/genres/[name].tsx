@@ -48,7 +48,7 @@ const GenrePage = () => {
   return (
     <>
       <Header title={genreTitle} isGenrePage gridView={gridView} setGridView={setGridView} openModal={(name === "top-rated" || name === "popular") ? undefined : setModalVisible} />
-      <Background />
+      {/* <Background /> */}
       <View style={styles.container}>
         <SortModalComponent
           modalVisible={modalVisible}
@@ -81,7 +81,7 @@ const GenrePage = () => {
             <FlatList
               data={genreData}
               keyExtractor={(item) => `${item.id}-${item.popularity}-${item.vote_average}`}
-              renderItem={({ item }) => <DetailedContentCard content={item} genres={movieGenres}/>}
+              renderItem={({ item }) => <DetailedContentCard content={item} genres={movieGenres} />}
               keyboardDismissMode='on-drag'
               onScrollBeginDrag={Keyboard.dismiss}
               showsVerticalScrollIndicator={false}

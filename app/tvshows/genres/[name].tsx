@@ -48,7 +48,7 @@ const GenrePage = () => {
   return (
     <>
       <Header title={genreTitle} isGenrePage gridView={gridView} setGridView={setGridView} openModal={(name === "top-rated" || name === "popular") ? undefined : setModalVisible} />
-      <Background />
+      {/* <Background /> */}
       <View style={styles.container}>
         <SortModalComponent
           modalVisible={modalVisible}

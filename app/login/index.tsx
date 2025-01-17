@@ -19,10 +19,9 @@ const Login = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = await AsyncStorage.getItem('token');
-      const user = await AsyncStorage.getItem('user');
-      if (token && user) {
-        dispatch(setUser(user));
+      const storedUser = await AsyncStorage.getItem('user');
+      if (storedUser) {
+        dispatch(setUser(storedUser));
         navigation.reset({
           index: 0,
           routes: [{ name: "index" as never }],
@@ -94,10 +93,18 @@ const Login = () => {
               onChangeText={setPassword}
               secureTextEntry
             />
-            <Pressable style={styles.forgotPasswordButton}>
+            <Pressable style={styles.forgotPasswordButton} >
               <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
             </Pressable>
-            <Button title="Login" onPress={handleLogin} color='#6200EE' textColor='#FFFFFF' />
+            <Button title="Login" onPress={handleLogin} color='rgb(63,85,198)' textColor='#FFFFFF' />
+            <View style={styles.signUpContainer}>
+              <Text style={styles.signUpText}>
+                Don't have an account?
+              </Text>
+              <Pressable onPress={() => router.push('/signup')}>
+                <Text style={styles.signUpLink}>Sign Up</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback >
@@ -142,7 +149,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#6200EE',
+    color: 'black',
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -161,7 +168,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   forgotPasswordText: {
-    color: '#6200EE',
+    color: 'rgb(32,31,37)',
     fontSize: 14,
+    fontWeight: 'bold',
+  },
+  signUpContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 20,
+    gap: 5,
+  },
+  signUpText: {
+    color: 'black',
+    textAlign: 'center',
+  },
+  signUpLink: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 });

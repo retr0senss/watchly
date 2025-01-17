@@ -50,7 +50,7 @@ export default function TvShows() {
   return (
     <>
       <Header isHomePage />
-      <Background />
+      {/* <Background /> */}
       <View style={styles.container}>
         {
           loading ? (

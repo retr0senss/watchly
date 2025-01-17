@@ -89,7 +89,7 @@ const TvShowsDetail = () => {
           <>
             <View style={styles.loadingContainer}>
               <ImageBackground
-                source={require("@/assets/images/homeBG.png")}
+                source={require("@/assets/images/homeBG.jpg")}
                 style={styles.loadingBackground}
               >
                 <ActivityIndicator size="large" color="white" />

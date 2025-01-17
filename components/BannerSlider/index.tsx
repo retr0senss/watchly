@@ -3,47 +3,49 @@ import { Dimensions, View, Text, Image } from 'react-native'
 import Carousel from "react-native-reanimated-carousel"
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles'
+import { MovieInterface, TvShowInterface } from '@/interfaces/contentInterfaces';
 
-const BannerSlider = () => {
+const ImageBaseUrl = process.env.EXPO_PUBLIC_API_IMAGE_URL;
+
+const BannerSlider = ({ bannerData }: {
+  bannerData: (MovieInterface | TvShowInterface)[]
+}) => {
   const { width } = Dimensions.get("window")
+  console.log("bannerData", bannerData)
 
-  const data = [
-    {
-      title: "Title 1",
-      image: "https://image.tmdb.org/t/p/original/d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg"
-    },
-    {
-      title: "Title 2",
-      image: "https://image.tmdb.org/t/p/original/jbOSUAWMGzGL1L4EaUF8K6zYFo7.jpg"
-    },
-    {
-      title: "Title 3",
-      image: "https://image.tmdb.org/t/p/original/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg"
-    },
-  ]
   return (
     <View style={[styles.carouselContainer, { width }]}>
       <Carousel
         loop
         width={width}
         autoPlay={true}
-        data={data}
+        data={bannerData}
         scrollAnimationDuration={1000}
         autoPlayInterval={3000}
         renderItem={({ item }) => (
           <View style={styles.slide}>
-            {/*             <LinearGradient
-              colors={['rgba(0,0,0,1)', 'rgba(0, 0, 0, .4)', 'rgba(0,0,0,.3), rgba(0,0,0,0)']}
-              style={styles.gradient}
+            <LinearGradient
+              colors={['#14171e', 'rgba(20,23,30,0)']}
+              style={[styles.gradient, { position: 'absolute', top: 0, height: '20%' }]}
+              start={[0, 0]}
+              end={[0, 1]}
+            />
+            <LinearGradient
+              colors={['rgba(20,23,30,1)', 'rgba(20,23,30,0)']}
+              style={[styles.gradient, { position: 'absolute', bottom: "30%", height: '10%' }]}
               start={[0, 1]}
               end={[0, 0]}
-              locations={[0, 0.3, 0.8, 1]}
-            /> */}
+            />
+            <LinearGradient
+              colors={['#080808', 'rgba(20,23,30,1)']}
+              style={[styles.gradient, { position: 'absolute', bottom: 0, height: '30%' }]}
+              start={[0, 1]}
+              end={[0, 0]}
+            />
             <Image
-              source={{ uri: item.image }}
+              source={{ uri: `${ImageBaseUrl}${item.poster_path}` }}
               style={styles.image}
             />
-            <Text style={styles.title}>{item.title}</Text>
           </View>
         )}
       />

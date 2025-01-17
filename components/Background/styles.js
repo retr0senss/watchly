@@ -6,6 +6,6 @@ export default StyleSheet.create({
     height: "100%",
     position: "absolute",
     zIndex: -1,
-    filter: "brightness(0.6)",
+    /* filter: "brightness(0.6)", */
   }
 });

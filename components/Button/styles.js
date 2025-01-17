@@ -4,7 +4,7 @@ export default StyleSheet.create({
   button: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-    borderRadius: 16,
+    borderRadius: 50,
   },
   text: {
     fontSize: 24,

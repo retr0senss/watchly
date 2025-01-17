@@ -96,7 +96,13 @@ const SignUp = () => {
               onChangeText={setConfirmPassword}
               secureTextEntry
             />
-            <Button title="Sign Up" onPress={handleSignUp} color='#6200EE' textColor='#FFFFFF' />
+            <Button title="Sign Up" onPress={handleSignUp} color='rgb(63,85,198)' textColor='#FFFFFF' />
+            <View style={styles.loginContainer}>
+              <Text style={styles.loginText}>Already have an account?</Text>
+              <Pressable onPress={() => router.push('/login')}>
+                <Text style={styles.loginLink}>Log In</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -141,7 +147,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#6200EE',
+    color: 'black',
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -155,4 +161,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
+  loginContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 20,
+    gap: 5,
+  },
+  loginText: {
+    color: 'black',
+    textAlign: 'center',
+  },
+  loginLink: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  }
 });
