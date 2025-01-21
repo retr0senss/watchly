@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   carouselContainer: {
-    height: 700,
+    height: 550,
+    marginBottom: 30
   },
   slide: {
     flex: 1,
@@ -13,52 +14,21 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   image: {
-    flex: 1,
     width: '100%',
     height: '100%',
-    zIndex: -2,
-  },
-  title: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   gradient: {
-    height: "30%",
-    width: "100%",
-    zIndex: -1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingTop: 20,
-    gap: 30,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 180,
   },
-  textContainer: {
-    width: '100%',
-    flexDirection: 'column',
+  imagePlaceholder: {
+    position: 'absolute',
+    backgroundColor: '#1a1a1a',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  title: {
-    color: 'white',
-    fontSize: 32,
-    fontWeight: 'bold',
-  },
-  description: {
-    color: 'white',
-    fontSize: 14,
-  },
-  buttonContainer: {
-    flexDirection: 'column',
-    gap: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 14,
-    marginRight: 10,
   },
 })
 

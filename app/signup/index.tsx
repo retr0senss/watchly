@@ -37,7 +37,7 @@ const SignUp = () => {
         dispatch(setUser(res.data.email));
         await AsyncStorage.setItem('user', res.data.email);
         await AsyncStorage.setItem('token', res.data.idToken);
-        router.push('/'); // Redirect to home page
+        router.push('/'); 
       }
     } catch (error) {
       if (error instanceof Error) {

@@ -15,6 +15,7 @@ import { AntDesign, Feather } from '@expo/vector-icons';
 interface PopularsRailInterface {
   title: string;
   data: MovieInterface[] | TvShowInterface[];
+  contentType?: 'movie' | 'tv';
 }
 
 const Search = () => {
@@ -22,48 +23,54 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState<MovieInterface[] | TvShowInterface[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [popularsRailData, setPopularsRailData] = useState<PopularsRailInterface>({
-    title: "",
-    data: []
-  });
+  const [popularsRailData, setPopularsRailData] = useState<PopularsRailInterface[]>([]);
   const { activeType } = useSelector((state: any) => state.activeType);
 
   useEffect(() => {
-    getPopulars(activeType).then(res => {
-      setPopularsRailData({ data: res?.data?.results, title: `Popular ${activeType === "movie" ? "Movies" : "TV Shows"}` });
-    });
+    const fetchPopularContent = async () => {
+      try {
+        const [movieResponse, tvResponse] = await Promise.all([
+          getPopulars("movie"),
+          getPopulars("tv")
+        ]);
+
+        setPopularsRailData([
+          {
+            data: movieResponse?.data?.results,
+            title: "Popular Movies",
+            contentType: 'movie'
+          },
+          {
+            data: tvResponse?.data?.results,
+            title: "Popular TV Shows",
+            contentType: 'tv'
+          }
+        ]);
+      } catch (error) {
+        console.error('Error fetching popular content:', error);
+      }
+    };
+
+    fetchPopularContent();
 
     if (searchValue === '') {
       setSearchResults([]);
     } else {
       handleSearch(searchValue);
     }
-  }, [searchValue, activeType]);
+  }, [searchValue]);
 
   const handleSearch = useCallback(debounce((searchValue: string) => {
     setIsTyping(false);
     if (searchValue !== '') {
       setSearchLoading(true);
-      if (activeType === "tv") {
-        searchTvShows(searchValue).then(res => {
-          setSearchResults(orderByPopularity(res?.data?.results));
-          setSearchLoading(false);
-        });
-      }
-      else if (activeType === "movie") {
-        searchMovies(searchValue).then(res => {
-          setSearchResults(orderByPopularity(res?.data?.results));
-          setSearchLoading(false);
-        });
-      }
-      else {
-        searchMulti(searchValue).then(res => {
-          setSearchResults(orderByPopularity(res?.data?.results));
-          setSearchLoading(false);
-        });
-      }
+      searchMulti(searchValue).then(res => {
+        setSearchResults(orderByPopularity(res?.data?.results));
+        setSearchLoading(false);
+      });
+
     }
-  }, 500), [activeType]);
+  }, 500), []);
 
   const onChange = (text: string) => {
     setIsTyping(true);
@@ -87,7 +94,10 @@ const Search = () => {
     else if (searchValue.length === 0) {
       return (
         <View>
-          <HorizontalSlider sliderData={[popularsRailData]} type={activeType} />
+          <HorizontalSlider
+            sliderData={popularsRailData}
+            isSearchPage={true}
+          />
         </View>
       );
     }
@@ -95,7 +105,10 @@ const Search = () => {
       return (
         <View>
           <Text style={styles.searchResultTitle}>No results found for {searchValue}</Text>
-          <HorizontalSlider sliderData={[popularsRailData]} type={activeType} />
+          <HorizontalSlider
+            sliderData={popularsRailData}
+            isSearchPage={true}
+          />
         </View>
       );
     }
@@ -154,12 +167,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     paddingBottom: 100,
+    alignItems: "center"
   },
   searchResultTitle: {
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   searchInput: {
     width: '100%',

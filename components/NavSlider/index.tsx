@@ -22,6 +22,7 @@ const NavSlider = () => {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.buttonContainer}
+      style={{ flexGrow: 0, flexShrink: 0 }}
     />
   )
 }

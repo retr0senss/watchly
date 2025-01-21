@@ -5,7 +5,7 @@ export default StyleSheet.create({
     gap: 30,
     height: 70,
     alignItems: 'center',
-    marginBottom: 30,
+    marginLeft: 20,
   },
   selectedButton: {
     backgroundColor: 'rgb(62, 84, 199)',

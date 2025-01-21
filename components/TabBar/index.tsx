@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     height: 120,
-    backgroundColor: 'rgba(20,18,25,.9)',
+    backgroundColor: 'rgba(20,18,25,.97)',
     borderTopWidth: 1,
     borderTopColor: '#333',
     justifyContent: 'space-between',

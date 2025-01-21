@@ -23,27 +23,15 @@ const BannerSlider = ({ bannerData }: {
         autoPlayInterval={3000}
         renderItem={({ item }) => (
           <View style={styles.slide}>
-            <LinearGradient
-              colors={['#14171e', 'rgba(20,23,30,0)']}
-              style={[styles.gradient, { position: 'absolute', top: 0, height: '20%' }]}
-              start={[0, 0]}
-              end={[0, 1]}
-            />
-            <LinearGradient
-              colors={['rgba(20,23,30,1)', 'rgba(20,23,30,0)']}
-              style={[styles.gradient, { position: 'absolute', bottom: "30%", height: '10%' }]}
-              start={[0, 1]}
-              end={[0, 0]}
-            />
-            <LinearGradient
-              colors={['#080808', 'rgba(20,23,30,1)']}
-              style={[styles.gradient, { position: 'absolute', bottom: 0, height: '30%' }]}
-              start={[0, 1]}
-              end={[0, 0]}
-            />
             <Image
               source={{ uri: `${ImageBaseUrl}${item.poster_path}` }}
               style={styles.image}
+            />
+            <LinearGradient
+              colors={['rgba(0,0,0,1)', 'rgba(0,0,0,.9)', 'rgba(0,0,0,0)']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={styles.gradient}
             />
           </View>
         )}

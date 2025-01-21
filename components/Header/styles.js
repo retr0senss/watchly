@@ -7,7 +7,6 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
     height: 90,
-    backdropFilter: "blur(4px)",
     paddingHorizontal: 20,
   },
   title: {
@@ -15,4 +14,9 @@ export default StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
+  headerRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  }
 });
